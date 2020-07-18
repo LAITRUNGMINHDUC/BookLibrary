@@ -1,10 +1,13 @@
 import os
 from flask import Flask
+from flask import request
+
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 from flask_pagedown import PageDown
 from flask_uploads import UploadSet, IMAGES, configure_uploads
+
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -26,3 +29,8 @@ from app import models
 exists_db = os.path.isfile(app.config['DATABASE'])
 if not exists_db:
     from . import db_fill
+
+@app.route('/security-test')
+def token_test():
+    my_str = '<pre>{}</pre>'.format(request.headers)
+    return my_str
